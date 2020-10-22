@@ -24,13 +24,13 @@ let arr = [];
 const dataFilter = data.filter(
   (item, index) =>
     item.quantity !== "0" &&
-    item.point_avg >= 5 &&
-    item.subjectName !== data[index + 1].subjectName
+    item.subjectName !== data[index + 1].subjectName &&
+    item.point_avg >= 5
 );
 
 console.log("dataFilter: ", dataFilter);
 let totalQuantity = 0;
 dataFilter.forEach((item) => {
   totalQuantity += Number(item.quantity);
-})
-console.log('totalQuantity: ', totalQuantity)
+});
+console.log("totalQuantity: ", totalQuantity);
