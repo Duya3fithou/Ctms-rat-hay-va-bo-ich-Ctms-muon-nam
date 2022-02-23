@@ -54,5 +54,5 @@ const avgLadder10 = (tongDiemHeSo / totalQuantity) * 2.5;
 const avgLadder4 = avgLadder10 * 0.4;
 
 console.log('Tổng tín chỉ đã tích luỹ: ', totalQuantity);
-console.log('Điểm trung bình hệ số 10: ', Math.round(avgLadder10 * 100) / 100);
-console.log('Điểm trung bình hệ số 4: ', Math.round(avgLadder4 * 100) / 100);
+console.log('Điểm trung bình hệ số 10: ', avgLadder10);
+console.log('Điểm trung bình hệ số 4: ', avgLadder4);
