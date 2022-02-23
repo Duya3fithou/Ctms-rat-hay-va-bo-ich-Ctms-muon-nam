@@ -1,46 +1,58 @@
-var list = document.getElementsByTagName('TR');
+const list = document.getElementsByTagName('TR');
 const data = [];
 for (let i = 5; i < list.length; i++) {
-  const quantity = Number(list[i].getElementsByTagName('TD')[1].innerText);
-  const diligence = Number(list[i].getElementsByTagName('TD')[4].innerText);
-  const midterm = Number(list[i].getElementsByTagName('TD')[5].innerText);
-  const endterm = Number(list[i].getElementsByTagName('TD')[6].innerText);
-  const subjectName = list[i].getElementsByTagName('TD')[0].innerText;
-  const subjectId = list[i].getElementsByTagName('TD')[2].innerText;
-  const teacher = list[i].getElementsByTagName('TD')[3].innerText;
-  const point_avg = diligence * 0.1 + midterm * 0.2 + endterm * 0.7;
-  let dataSubject = {
-    subjectName,
-    quantity,
-    subjectId,
-    teacher,
-    diligence,
-    midterm,
-    endterm,
-    point_avg: Math.round(point_avg * 100) / 100,
-    tempPoint: Math.round(point_avg * quantity * 100) / 100,
-  };
-  data.push(dataSubject);
+    const quantityCredit = Number(list[i].getElementsByTagName('TD')[1].innerText);
+    const diligence = Number(list[i].getElementsByTagName('TD')[4].innerText);
+    const midtermPoint = Number(list[i].getElementsByTagName('TD')[5].innerText);
+    const endtermPoint = Number(list[i].getElementsByTagName('TD')[6].innerText);
+    const subjectName = list[i].getElementsByTagName('TD')[0].innerText;
+    const subjectId = list[i].getElementsByTagName('TD')[2].innerText;
+    const teacher = list[i].getElementsByTagName('TD')[3].innerText;
+    const avgPoint = diligence * 0.1 + midtermPoint * 0.2 + endtermPoint * 0.7;
+    let new4 = 0;
+    if (avgPoint < 4) new4 = 0;
+    if (avgPoint >= 4 && avgPoint < 5) new4 = 1;
+    if (avgPoint >= 5 && avgPoint < 5.5) new4 = 1.5;
+    if (avgPoint >= 5.5 && avgPoint < 6.5) new4 = 2;
+    if (avgPoint >= 6.5 && avgPoint < 7) new4 = 2.5;
+    if (avgPoint >= 7 && avgPoint < 8) new4 = 3;
+    if (avgPoint >= 8 && avgPoint < 8.5) new4 = 3.5;
+    if (avgPoint >= 8.5) new4 = 4;
+    const coefficientPoint = quantityCredit * new4;
+    const dataSubject = {
+        subjectName,
+        quantityCredit,
+        subjectId,
+        teacher,
+        diligence,
+        midtermPoint,
+        endtermPoint,
+        avgPoint,
+        new4,
+        coefficientPoint,
+    };
+    data.push(dataSubject);
 }
-console.log('data: ', data);
 
 const dataFilter = data.filter((item, index) => {
-  if (
-    item.quantity !== 0 &&
-    item.subjectName !== data?.[index + 1]?.subjectName &&
-    item.point_avg >= 4
-  ) {
-    return item;
-  }
+    if (
+        item.quantity !== 0 &&
+        item.subjectName !== data?.[index + 1]?.subjectName &&
+        item.avgPoint >= 4
+    ) {
+        return item;
+    }
 });
-let sumObject = 0;
+console.log('Danh sách đã qua môn: ', dataFilter);
 let totalQuantity = 0;
+let tongDiemHeSo = 0;
 dataFilter.forEach(item => {
-  totalQuantity += Number(item.quantity);
-  sumObject += item.tempPoint;
+    totalQuantity += Number(item.quantity);
+    tongDiemHeSo += item.diemHeSo;
 });
-const avgLadder10 = Math.round((sumObject / totalQuantity) * 100) / 100;
-const avgLadder4 = Math.round((avgLadder10 * 400) / 1000);
-console.log('totalQuantity: ', totalQuantity);
-console.log('avg point ladder 10: ', avgLadder10);
-console.log('avg point ladder 4: ', avgLadder4);
+const avgLadder10 = (tongDiemHeSo / totalQuantity) * 2.5;
+const avgLadder4 = avgLadder10 * 0.4;
+
+console.log('Tổng tín chỉ đã tích luỹ: ', totalQuantity);
+console.log('Điểm trung bình hệ số 10: ', Math.round(avgLadder10 * 100) / 100);
+console.log('Điểm trung bình hệ số 4: ', Math.round(avgLadder4 * 100) / 100);
